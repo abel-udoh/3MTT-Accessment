@@ -43,7 +43,7 @@ describe('Authentication Endpoints', () => {
     it('should not sign in an invalid user', async () => {
         const response = await request(app)
             .post('/signin')
-            .send({ email: 'invalid@example.com', password: 'invalidpassword' });
+            .send({ email: 'abeludoh8@gmail.com', password: 'invalidpassword' });
         expect(response.status).toBe(401);
     });
 });
