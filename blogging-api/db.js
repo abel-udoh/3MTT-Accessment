@@ -19,8 +19,14 @@ function getDatabase() {
   return client.db(process.env.MONGODB_DATABASE);
 }
 
-function closeDatabase() {
-  client.close();
+async function closeDatabase() {
+  try {
+    await client.close();
+    console.log("Closed MongoDB connection");
+  } catch (error) {
+    console.error("Failed to close MongoDB connection:", error);
+    process.exit(1);
+  }
 }
 
 module.exports = { connectToDatabase, getDatabase, closeDatabase };
