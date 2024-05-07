@@ -1,13 +1,15 @@
-const { MongoClient } = require('mongodb');
+const mongoose = require('mongoose');
 require('dotenv').config();
 
 const uri = process.env.MONGODB_URI;
 
-const client = new MongoClient(uri);
-
 async function connectToDatabase() {
   try {
-    await client.connect();
+    await mongoose.connect(uri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 5000
+    });
     console.log("Connected to MongoDB");
   } catch (error) {
     console.error("Failed to connect to MongoDB:", error);
@@ -16,12 +18,12 @@ async function connectToDatabase() {
 }
 
 function getDatabase() {
-  return client.db(process.env.MONGODB_DATABASE);
+  return mongoose.connection.db;
 }
 
 async function closeDatabase() {
   try {
-    await client.close();
+    await mongoose.connection.close();
     console.log("Closed MongoDB connection");
   } catch (error) {
     console.error("Failed to close MongoDB connection:", error);
